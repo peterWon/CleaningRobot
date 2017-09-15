@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="cleaning_robot" type="cleaning_gridmove_node" respawn="false" name="cleaning_covering_node" output="screen" clear_params="true" launch-prefix="xterm -e gdb --args">
+    <rosparam file="/home/wz/ROS/cleaning_robot/src/config/costmap_common_params.yaml" command="load" ns="cleaning_costmap" />
+    <rosparam file="/home/wz/ROS/cleaning_robot/src/config/cleaning_costmap_params.yaml" command="load" />
+  </node>
+  
+</launch>
