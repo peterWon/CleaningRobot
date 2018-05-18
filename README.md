@@ -1,4 +1,5 @@
 # CleaningRobot
+<<<<<<< HEAD
 
 - Using opencv and costmap2d to make cleaning plan. 
 - Using movebase to contral robot's movement.
@@ -16,3 +17,4 @@
 ### Cleaning with movebase
 
 ![180017721](/home/wz/Downloads/180017721.jpg)
+=======
