@@ -9,7 +9,7 @@
 - opencv
 - ros-navigation-stack(actionlib、move-base...)
 - roscpp、 tf
-- **NO NEED TO INSTALL THEM ONE BY ONE**, I have put the install scripts in next **'Build'** step.
+- **Download corresponding script in this repo to install depends.**
 
 ### Build
 1. Download 'build.sh' in this repo.
@@ -17,13 +17,19 @@
 3. ```sh build.sh```
 
 ### Run path planning node
+```cd $ROOT_WS```
+```source devel/setup.sh```
 ```roslaunch cleaning_robot path_planning.launch```
+
 (click left menu of CoveragePath to select corresponding topic to show path in mainwindow.)
 
 ![ CoveragePath](src/img/180017721.png  "CoveragePath")
 
 ### Run cleaning with movebase node
+```cd $ROOT_WS```
+```source devel/setup.sh```
 ```roslaunch cleaning_robot  cleaning_movebase.launch```
+
 (click left menu of CoverageMap to select corresponding topic to show covered grids in mainwindow.)
 
 ![cleaning with movebase](src/img/187662752.png  "cleaning with movebase")
