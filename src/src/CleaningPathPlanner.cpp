@@ -32,11 +32,12 @@ CleaningPathPlanning::CleaningPathPlanning(costmap_2d::Costmap2DROS *costmap2d_r
     resolution_ = costmap2d_->getResolution();
 
     srcMap_=Mat(sizey,sizex,CV_8U);
-    for(int r = 0; r < sizey; r++)
-        for(int c = 0; c < sizex; c++ )
-        {
-            srcMap_.at<uchar>(r,c) = costmap2d_->getCost(c,sizey-r-1);//??sizey-r-1 caution: costmap's origin is at left bottom ,while opencv's pic's origin is at left-top.
-        }
+    for(int r = 0; r < sizey; r++){
+      for(int c = 0; c < sizex; c++ ){
+          srcMap_.at<uchar>(r,c) = costmap2d_->getCost(c,sizey-r-1);//??sizey-r-1 caution: costmap's origin is at left bottom ,while opencv's pic's origin is at left-top.
+      }
+    }
+
 
     initializeMats();
     initializeCoveredGrid();
@@ -52,7 +53,8 @@ CleaningPathPlanning::CleaningPathPlanning(costmap_2d::Costmap2DROS *costmap2d_r
 
 vector<geometry_msgs::PoseStamped> CleaningPathPlanning::GetPathInROS()
 {
-    vector<geometry_msgs::PoseStamped> resultVec;
+//    vector<geometry_msgs::PoseStamped> resultVec;
+    if(!pathVecInROS_.empty())pathVecInROS_.clear();
     geometry_msgs::PoseStamped posestamped;
     geometry_msgs::Pose pose;
     vector<cellIndex> cellvec;
@@ -72,16 +74,17 @@ vector<geometry_msgs::PoseStamped> CleaningPathPlanning::GetPathInROS()
          posestamped.header.frame_id = "map";
          posestamped.pose = pose;
 
-         resultVec.push_back(posestamped);
+         pathVecInROS_.push_back(posestamped);
     }
-    publishPlan(resultVec);
-    cout<<"The path size is"<<resultVec.size()<<endl;
-    return resultVec;
+    publishPlan(pathVecInROS_);
+    cout<<"The path size is "<<pathVecInROS_.size()<<endl;
+    return pathVecInROS_;
 }
 
 vector<geometry_msgs::PoseStamped> CleaningPathPlanning::GetBorderTrackingPathInROS()
 {
-     vector<geometry_msgs::PoseStamped> resultPathInROS;
+     //vector<geometry_msgs::PoseStamped> resultPathInROS;
+     if(!pathVecInROS_.empty())pathVecInROS_.clear();
      geometry_msgs::PoseStamped posestamped;
      geometry_msgs::Pose pose;
      vector<cv::Point2i> resultCV;
@@ -122,14 +125,14 @@ vector<geometry_msgs::PoseStamped> CleaningPathPlanning::GetBorderTrackingPathIn
                          posestamped.header.frame_id = "map";
                          posestamped.pose = pose;
 
-                         resultPathInROS.push_back(posestamped);
+                         pathVecInROS_.push_back(posestamped);
                      }
                  }
              }
          }
      }
-     publishPlan(resultPathInROS);
-     return resultPathInROS;
+     publishPlan(pathVecInROS_);
+     return pathVecInROS_;
 }
 
 
@@ -238,6 +241,9 @@ vector<cellIndex> CleaningPathPlanning::GetPathInCV()
     return this->pathVec_;
 }
 
+void CleaningPathPlanning::PublishCoveragePath(){
+  publishPlan(this->pathVecInROS_);
+}
 
 void CleaningPathPlanning::publishPlan(const std::vector<geometry_msgs::PoseStamped> &path)
 {
@@ -353,10 +359,11 @@ void CleaningPathPlanning::writeResult(Mat resultmat,vector<cellIndex> pathVec)
         resultMat.at<Vec3b>(pathVec[i].row*SIZE_OF_CELL,pathVec[i].col*SIZE_OF_CELL)[1] = 0;
         resultMat.at<Vec3b>(pathVec[i].row*SIZE_OF_CELL,pathVec[i].col*SIZE_OF_CELL)[2] = 255;*/
     }
-    imshow("resultMat",resultmat);
-    waitKey(0);
-//    imwrite("reaultMat.jpg",resultmat);
+//    imshow("resultMat",resultmat);
+//    waitKey(0);
+    imwrite("reaultMat.jpg",resultmat);
 }
+
 void CleaningPathPlanning::writeResult(Mat resultmat,vector<cv::Point2i> pathVec)
 {
     int i = 0,j = 0;
@@ -369,8 +376,8 @@ void CleaningPathPlanning::writeResult(Mat resultmat,vector<cv::Point2i> pathVec
         //std::cout<<"X: "<<cupoint.x<<","<<"Y:"<<cupoint<<std::endl;
 
     }
-    imshow("resultMat",resultmat);
-    waitKey(0);
+//    imshow("resultMat",resultmat);
+//    waitKey(0);
 }
 
 void CleaningPathPlanning::mainPlanningLoop()

@@ -49,9 +49,11 @@ public:
     vector<geometry_msgs::PoseStamped> GetBorderTrackingPathInROS();
 
     void SetCoveredGrid(double wx,double wy);
-    void PublishGrid();
     int GetSizeOfCell(){return this->SIZE_OF_CELL;}
 
+    //for visualization
+    void PublishCoveragePath();
+    void PublishGrid();
 private:
     //helper functions.
     bool initializeMats();
@@ -76,10 +78,10 @@ private:
     Mat neuralizedMat_;
     vector<cellIndex> freeSpaceVec_;
     vector<cellIndex> pathVec_;
+    vector<geometry_msgs::PoseStamped> pathVecInROS_;
 
     double resolution_;
     ros::Publisher plan_pub_;
-
     ros::Publisher grid_pub_;
     nav_msgs::OccupancyGrid covered_path_grid_;
 

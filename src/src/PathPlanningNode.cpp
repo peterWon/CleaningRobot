@@ -21,10 +21,16 @@ int main(int argc, char** argv) {
     //planner_costmap_ros_->pause();
 
     CleaningPathPlanning clr(&lcr);
-    //clr.GetPathInROS();
-    clr.GetBorderTrackingPathInROS();
+    clr.GetPathInROS();
+    //clr.GetBorderTrackingPathInROS();
+    ros::Rate r(10);
+    while(ros::ok()){
+      clr.PublishCoveragePath();
+      ros::spinOnce();
+      r.sleep();
+    }
 
-    ros::spin();
+    ros::shutdown();
     return 0;
 }
 

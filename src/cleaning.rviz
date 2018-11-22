@@ -50,26 +50,6 @@ Visualization Manager:
       Reference Frame: odom
       Value: true
     - Angle Tolerance: 0.1
-      Class: rviz/Odometry
-      Color: 221; 200; 14
-      Enabled: true
-      Keep: 100
-      Length: 0.7
-      Name: Odometry
-      Position Tolerance: 0.1
-      Topic: /odom
-      Value: true
-    - Angle Tolerance: 0.1
-      Class: rviz/Odometry
-      Color: 255; 25; 0
-      Enabled: false
-      Keep: 100
-      Length: 0.6
-      Name: Odometry EKF
-      Position Tolerance: 0.1
-      Topic: /odom
-      Value: false
-    - Alpha: 1
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -280,8 +260,8 @@ Visualization Manager:
       Color Scheme: map
       Draw Behind: true
       Enabled: true
-      Name: Map
-      Topic: /map
+      Name: CoveredMap
+      Topic: /cleaning_movebase_node/cleaning_plan_nodehandle/covered_grid
       Value: true
     - Alpha: 1
       Buffer Length: 1
@@ -296,8 +276,18 @@ Visualization Manager:
       Class: rviz/Path
       Color: 0; 213; 0
       Enabled: true
-      Name: Global Plan
-      Topic: /cleaning_covering_node/cleaning_plan_nodehandle/cleaning_path
+      Name: CoveragePath
+      Topic: /cleaning_movebase_node/cleaning_plan_nodehandle/cleaning_path
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /waypoint_markers
+      Name: Marker
+      Class: rviz/Path
+      Color: 0; 213; 0
+      Enabled: true
+      Name: CoveragePath
+      Topic: /path_planning_node/cleaning_plan_nodehandle/cleaning_path
       Value: true
     - Class: rviz/Marker
       Enabled: true

@@ -29,15 +29,21 @@ int main(int argc, char** argv){
   tf::TransformListener tl_listener(ros::Duration(10));
   costmap_2d::Costmap2DROS lcr("cleaning_costmap", tl_listener);
   CleaningPathPlanning *pathPlanner = new CleaningPathPlanning(&lcr);
+
+  //full coverage path.
   std::vector<geometry_msgs::PoseStamped> fullCoverPath = pathPlanner->GetPathInROS();
   int beginNum = fullCoverPath.size();
-  std::vector<geometry_msgs::PoseStamped> borderTrackingPath = pathPlanner->GetBorderTrackingPathInROS();
-  for(int i = 0;i<borderTrackingPath.size();i++)
-  {
-      fullCoverPath.push_back(borderTrackingPath[i]);
-  }
+
+  //border tracing path.
+//  std::vector<geometry_msgs::PoseStamped> borderTrackingPath = pathPlanner->GetBorderTrackingPathInROS();
+//  for(int i = 0;i<borderTrackingPath.size();i++)
+//  {
+//      fullCoverPath.push_back(borderTrackingPath[i]);
+//  }
+
   //main loop
-  for(int i = beginNum+1; i < fullCoverPath.size(); i++)
+  ros::Rate r(10);
+  for(int i = 0; i < fullCoverPath.size(); i++)
   {
       nextGoal.target_pose.header.frame_id = "map";
       nextGoal.target_pose.header.stamp = ros::Time::now();
@@ -68,6 +74,10 @@ int main(int argc, char** argv){
           ROS_INFO("The base failed to move forward to the next path for some reason!");
           continue;
       }
+
+      pathPlanner->PublishCoveragePath();
+      ros::spinOnce();
+      r.sleep();
     }
 
   delete pathPlanner;
