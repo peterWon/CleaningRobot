@@ -20,10 +20,10 @@
 ```roslaunch cleaning_robot path_planning.launch```
 (click left menu of CoveragePath to select corresponding topic to show path in mainwindow.)
 
-![ CoveragePath](img/180017721.png  "CoveragePath")
+![ CoveragePath](src/img/180017721.png  "CoveragePath")
 
 ### Run cleaning with movebase node
 ```roslaunch cleaning_robot  cleaning_movebase.launch```
 (click left menu of CoverageMap to select corresponding topic to show covered grids in mainwindow.)
 
-![cleaning with movebase](img/187662752.png  "cleaning with movebase")
+![cleaning with movebase](src/img/187662752.png  "cleaning with movebase")
