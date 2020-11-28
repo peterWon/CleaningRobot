@@ -27,8 +27,8 @@ int main(int argc, char** argv){
   move_base_msgs::MoveBaseGoal nextGoal;
 
   //load the global path.
-  tf::TransformListener tl_listener(ros::Duration(10));
-  costmap_2d::Costmap2DROS lcr("cleaning_costmap", tl_listener);
+  tf2_ros::Buffer tf;
+  costmap_2d::Costmap2DROS lcr("cleaning_costmap", tf);
   CleaningPathPlanning *pathPlanner = new CleaningPathPlanning(&lcr);
   std::vector<geometry_msgs::PoseStamped> fullCoverPath = pathPlanner->GetPathInROS();
 
@@ -46,9 +46,8 @@ int main(int argc, char** argv){
 
       geometry_msgs::PoseStamped posestamped = fullCoverPath[i];
 
-      tf::Stamped<tf::Pose>currentPoseTf;
-      if(!lcr.getRobotPose(currentPoseTf))continue;
-      tf::poseStampedTFToMsg(currentPoseTf,currentPose);
+      if(!lcr.getRobotPose(currentPose))continue;
+
       if(distance(currentPose,posestamped)>pathPlanner->GetSizeOfCell()*lcr.getCostmap()->getResolution()*1.5)
       {
           //call move base to plan a long distance.

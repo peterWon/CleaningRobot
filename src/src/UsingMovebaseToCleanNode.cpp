@@ -26,8 +26,8 @@ int main(int argc, char** argv){
   move_base_msgs::MoveBaseGoal nextGoal;
 
   //load the global path.
-  tf::TransformListener tl_listener(ros::Duration(10));
-  costmap_2d::Costmap2DROS lcr("cleaning_costmap", tl_listener);
+  tf2_ros::Buffer tf(ros::Duration(10));
+  costmap_2d::Costmap2DROS lcr("cleaning_costmap", tf);
   CleaningPathPlanning *pathPlanner = new CleaningPathPlanning(&lcr);
 
   //full coverage path.

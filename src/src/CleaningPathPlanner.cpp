@@ -386,16 +386,15 @@ void CleaningPathPlanning::mainPlanningLoop()
 //    initPoint.row = cellMat_.rows/2; //initPoint to be made interface.
 //    initPoint.col = cellMat_.cols/2;
     initPoint.theta = 90;
-    bool isok = costmap2d_ros_->getRobotPose(initPose_);
-    if(!isok)
+    if(!costmap2d_ros_->getRobotPose(initPose_))
     {
         ROS_INFO("Failed to get robot location! Please check where goes wrong!");
         return;
     }
     //initPoint.row = initPose_.getOrigin().y()
     unsigned int mx,my;
-    double wx = initPose_.getOrigin().x();
-    double wy = initPose_.getOrigin().y();
+    double wx = initPose_.pose.position.x;
+    double wy = initPose_.pose.position.y;
     //geometry_msgs::PoseStamped current_position;
     //tf::poseStampedTFToMsg(global_pose, current_position);
 

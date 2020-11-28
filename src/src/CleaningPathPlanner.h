@@ -86,7 +86,7 @@ private:
     nav_msgs::OccupancyGrid covered_path_grid_;
 
     //tf::TransformListener &tf_;
-    tf::Stamped<tf::Pose> initPose_;
+    geometry_msgs::PoseStamped initPose_;
 
     costmap_2d::Costmap2D* costmap2d_;
     costmap_2d::Costmap2DROS* costmap2d_ros_;

@@ -1,5 +1,6 @@
 #include "LocalGridVelocityComputer.h"
 #include <costmap_2d/cost_values.h>
+#include <geometry_msgs/PoseStamped.h>
 
 LocalGridVelocityComputer::LocalGridVelocityComputer(costmap_2d::Costmap2DROS *costmap2dros)
 {
@@ -49,9 +50,7 @@ void LocalGridVelocityComputer::computeTransAndRotateDelta()
 
 void LocalGridVelocityComputer::updatePose()
 {
-    tf::Stamped<tf::Pose> pose;
-    if(costmap2d_ros_->getRobotPose(pose))
-        tf::poseStampedTFToMsg(pose, current_pose_);
+    costmap2d_ros_->getRobotPose(current_pose_);
 }
 
 bool LocalGridVelocityComputer::checkNextPointValid()
